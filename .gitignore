@@ -1,0 +1,10 @@
+**/.DS_Store
+.env.secrets
+**/.metals/**
+**/metals.sbt
+**/out/*
+**/.idea/*
+**/.vscode/*
+**/target/*
+project/*
+**/.bloop
