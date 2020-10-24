@@ -18,9 +18,6 @@ object TypeClass extends App {
   final case class JsNumber(get: Double)            extends Json
   final case object JsNull                          extends Json
 
-
-
-
   // type class
   trait JsonWriter[-A] {
     def write(value: A): Json
