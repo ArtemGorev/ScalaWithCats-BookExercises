@@ -40,11 +40,16 @@ object EqualCat extends App {
 
   class Animal()
 
-  object Animal {
-    implicit val animalWriter: JsonWriter[Animal] = new JsonWriter[Animal] {
-      def write(value: Animal): Json = JsObject(Map())
-    }
+//  object Animal {
+//    implicit val animalWriter: JsonWriter[Animal] = new JsonWriter[Animal] {
+//      def write(value: Animal): Json = JsObject(Map())
+//    }
+//  }
+
+  implicit val animalWriter: JsonWriter[Animal] = new JsonWriter[Animal] {
+    def write(value: Animal): Json = JsObject(Map())
   }
+
   final case class Cat(name: String, age: Int, color: String) extends Animal
 
   val cat1 = Cat("Garfield", 38, "orange and black")
@@ -79,11 +84,11 @@ object EqualCat extends App {
 
 
   // B -> A & F[A]
-  def format[A](value: A)(implicit writer: JsonWriter[A]): Json = writer.write(value)
+  def format[A](value: A)(writer: JsonWriter[A]): Json = writer.write(value)
 
   def m (in: Option[Animal]): Unit = ()
 
-  m(Option(cat))
+//  m(Option(cat))
 
   implicit val catWriter: JsonWriter[Cat] = new JsonWriter[Cat] {
     def write(value: Cat): TypeClass.Json = {
@@ -97,7 +102,22 @@ object EqualCat extends App {
     }
   }
 
+  def printMyCat(writer: JsonWriter[Cat]): Unit = {
+    println(writer.write(cat))
+  }
+
   println("__________________")
-  println(format(animal))
-  println(format(cat))
+  println(format(animal)(animalWriter))
+  println(format(cat)(animalWriter))
+  println(format(cat)(catWriter))
+
+  printMyCat(animalWriter)
+  printMyCat(catWriter)
+
+
+//  println(animalWriter.write(cat))
+
+//  val lst: List[Animal] = List(cat, cat ,cat) // covariance
+  // animalWriter.write(cat) // contravariance
+
 }
