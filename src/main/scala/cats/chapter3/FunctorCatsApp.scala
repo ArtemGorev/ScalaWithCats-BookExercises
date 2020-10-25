@@ -1,16 +1,16 @@
 package cats.chapter3
 
 import cats.Functor
-import cats.instances.list._   // for Functor
+import cats.instances.list._ // for Functor
 import cats.instances.option._
 import cats.instances.function._
 import cats.syntax.functor._
 
 object FunctorCatsApp extends App {
 
-  val list1 = List(1, 2, 3)
-  def f(x: Int) =  s"result: ${x * 2}"
-  val list2 = Functor[List].map(list1)(f)
+  val list1     = List(1, 2, 3)
+  def f(x: Int) = s"result: ${x * 2}"
+  val list2     = Functor[List].map(list1)(f)
   println(list1)
   println(list2)
 
@@ -23,10 +23,10 @@ object FunctorCatsApp extends App {
   println(liftedFunc(option1))
 
   val asFunctor = Functor[Option].as(option1, "bla-bla-bla")
-  val func1 = (a: Int) => a + 1
-  val func2 = (a: Int) => a * 2
-  val func3 = (a: Int) => s"$a!"
-  val func4 = func1.map(func2).map(func3)
+  val func1     = (a: Int) => a + 1
+  val func2     = (a: Int) => a * 2
+  val func3     = (a: Int) => s"$a!"
+  val func4     = func1.map(func2).map(func3)
   println(func4(123))
 
   implicit val boxFunctor: Functor[Box] = new Functor[Box]() {
@@ -40,6 +40,4 @@ object FunctorCatsApp extends App {
   val liftedFf = Functor[Box].lift(ff)
   println(liftedFf(box))
   println(box.as("123!"))
-
-
 }
