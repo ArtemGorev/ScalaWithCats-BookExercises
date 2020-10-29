@@ -37,7 +37,7 @@ object EitherApp extends App {
   println((-1).asRight[String].ensure("Must be non-negative")(_ > 0))
   println(Either.fromTry(Try("foo".toInt)))
 
-  val left = "error".asLeft[Int]
+  val left  = "error".asLeft[Int]
   val left2 = 10.asRight[String]
 
   val asLeft = left2.recover {
@@ -53,7 +53,7 @@ object EitherApp extends App {
   val res = for {
     a <- 1.asRight[String]
     b <- 0.asRight[String]
-    c <- if(b == 0) "DIV0".asLeft[Int]
+    c <- if (b == 0) "DIV0".asLeft[Int]
     else (a / b).asRight[String]
   } yield c * 100
   println(res)
@@ -61,10 +61,10 @@ object EitherApp extends App {
   // ERROR HANDLING
   println("========ERROR HANDLING========")
 
-  sealed trait LoginError extends Product with Serializable
-  final case class UserNotFound(username: String) extends LoginError
+  sealed trait LoginError                              extends Product with Serializable
+  final case class UserNotFound(username: String)      extends LoginError
   final case class PasswordIncorrect(username: String) extends LoginError
-  case object UnexpectedError extends LoginError
+  case object UnexpectedError                          extends LoginError
   case class User(username: String, password: String)
 
   type LoginResult = Either[LoginError, User]
@@ -93,6 +93,5 @@ object EitherApp extends App {
   // User(dave, passw0rd)
   result2.fold(handleError, println)
   // User not found: dave
-
 
 }

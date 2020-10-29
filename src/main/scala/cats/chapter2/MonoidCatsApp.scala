@@ -18,8 +18,6 @@ object MonoidCatsApp extends App {
   println(Monoid[Option[String]].combine(a, b))
   println(Monoid[Option[String]].combine(a, c))
 
-//  implicit val optionStringMonoid = Monoid[Option[String]]
-
   object OptionObjectOps {
     def combine(a: Option[String], b: Option[String])(implicit monoid: Monoid[Option[String]]) =
       monoid.combine(a, b)
