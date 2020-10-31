@@ -7,6 +7,8 @@ import cats.instances.vector._
 import cats.instances.string._
 import cats.instances.int._
 
+import scala.util.{Failure, Success, Try}
+
 object WriterApp extends App {
 
   type Logged[A] = Writer[Vector[String], A]
@@ -36,4 +38,25 @@ object WriterApp extends App {
     .flatMap(x => (x + 32).writer(""))
 
   println(aa)
+
+  def f(a: => Int) = {
+    Try(println(a)) match {
+      case Failure(e) => println("err")
+      case Success(_) => println("done")
+    }
+  }
+
+  lazy val h = {
+    10 / 0
+  }
+
+  f({
+    throw new Exception("booom")
+  })
+
+
+
+
+
+
 }
