@@ -1,5 +1,6 @@
 package cats.chapter5
 
+import cats.Semigroupal
 import cats.data.{EitherT, OptionT, Writer}
 import cats.instances.list._
 import cats.instances.option._
@@ -42,4 +43,5 @@ object MonadTransformerPatternsApp extends App {
   // result2: Logged[Option[Int]] = WriterT(
   // (List("Read 1", "Failed on a"), None)
   // )
+
 }
