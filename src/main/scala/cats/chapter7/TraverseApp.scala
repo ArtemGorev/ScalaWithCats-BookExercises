@@ -52,4 +52,6 @@ object TraverseApp extends App {
 
   val totalUptime = listTraverse(hostnames)(getUptime)
   println(Await.result(totalUptime, 1.second))
+
+  println(Runtime.getRuntime.availableProcessors)
 }

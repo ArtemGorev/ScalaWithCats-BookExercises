@@ -19,7 +19,7 @@ object TraverseExerciseApp extends App {
 
   type ErrorsOr[A] = Validated[List[String], A]
   def processV(inputs: List[Int]): ErrorsOr[List[Int]] =
-    listTraverse(inputs) { n =>
+    listTraverse(inputs) { n: Int =>
       if (n % 2 == 0) {
         Validated.valid(n)
       } else {
