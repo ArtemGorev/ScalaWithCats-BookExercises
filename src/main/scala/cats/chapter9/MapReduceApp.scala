@@ -1,11 +1,11 @@
-package cats.chapter8
+package cats.chapter9
 
 import java.util.Date
 
 import cats.Monoid
 import cats.instances.int._
 import cats.instances.string._
-import cats.syntax.monoid._
+import cats.syntax.semigroup._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationInt
@@ -40,22 +40,22 @@ object MapReduceApp extends App {
       .map(_.foldLeft(Monoid.empty[B])(Monoid.combine(_, _)))
 
   def parallelFoldMap2[A, B: Monoid](values: Vector[A])(func: A => B): Future[B] = {
-    val numCores                    = Runtime.getRuntime.availableProcessors
-    val groupSize                   = (1.0 * values.size / numCores).ceil.toInt
+    val numCores = Runtime.getRuntime.availableProcessors
+    val groupSize = (1.0 * values.size / numCores).ceil.toInt
     val groups: Iterator[Vector[A]] = values.grouped(groupSize)
 
     val futures: Iterator[Future[B]] = groups.map(group => Future(foldMap(group)(func)))
     Future.sequence(futures).map { iterable => iterable.foldLeft(Monoid[B].empty)(_ |+| _) }
   }
 
-  val d1   = (new Date).getTime
-  val i    = 1000000
+  val d1 = (new Date).getTime
+  val i = 1000000
   val res4 = parallelFoldMap((1 to i).toVector)(identity)
   println(Await.result(res4, 1.second))
   val d2 = (new Date).getTime
   println(d2 - d1)
 
-  val d3   = (new Date).getTime
+  val d3 = (new Date).getTime
   val res5 = foldMap((1 to i).toVector)(identity)
   println(res5)
   val d4 = (new Date).getTime
