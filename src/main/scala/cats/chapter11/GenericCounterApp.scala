@@ -7,7 +7,7 @@ import cats.syntax.foldable._
 import cats.instances.map._
 import cats.instances.list._
 
-object CrdtApp extends App {
+object GenericCounterApp extends App {
 
   final case class GCounter[A](counters: Map[String, A]) {
 
@@ -26,14 +26,15 @@ object CrdtApp extends App {
   }
 
   implicit val intBoundedSemiLattice: BoundedSemiLattice[Int] = new BoundedSemiLattice[Int] {
-    override def combine(a1: Int, a2: Int): Int = a1 max a2
+    override def combine(a1: Int, a2: Int): Int = {
+      println("merge")
+      a1.max(a2)
+    }
     override def empty: Int = 0
   }
 
-  implicit val setBoundedSemiLattice: BoundedSemiLattice[Set[_]] = new BoundedSemiLattice[Set[_]] {
-    override def combine(a1: Set[_], a2: Set[_]): Set[_] = a1.union(a2)
-    override def empty: Set[_] = Set.empty
-  }
-
-
+//  implicit val setBoundedSemiLattice: BoundedSemiLattice[Set[_]] = new BoundedSemiLattice[Set[_]] {
+//    override def combine(a1: Set[_], a2: Set[_]): Set[_] = a1.union(a2)
+//    override def empty: Set[_]                           = Set.empty
+//  }
 }
