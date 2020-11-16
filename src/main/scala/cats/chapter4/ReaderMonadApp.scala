@@ -14,7 +14,6 @@ object ReaderMonadApp extends App {
   private val f: Kleisli[Id, Cat, Int] = catName.map(name => 42)
   println(f.run(Cat("Tom", "meat")))
 
-
   val greetKitty: Reader[Cat, String] =
     catName.map(name => s"Hello ${name}")
   val feedKitty: Reader[Cat, String] =
@@ -38,7 +37,7 @@ object ReaderMonadApp extends App {
   type DbReader[A] = Reader[Db, A]
 
   def findUsername(userId: Int): DbReader[Option[String]] =
-     new DbReader[Option[String]](db => db.usernames.get(userId))
+    new DbReader[Option[String]](db => db.usernames.get(userId))
 
   def checkPassword(username: String, password: String): DbReader[Boolean] =
     new DbReader[Boolean](db => db.passwords.get(username).contains(password))
@@ -46,7 +45,7 @@ object ReaderMonadApp extends App {
   def checkLogin(userId: Int, password: String): DbReader[Boolean] = {
     for {
       username <- findUsername(userId)
-      isValid  <- username match {
+      isValid <- username match {
         case Some(value) => checkPassword(value, password)
         case None        => false.pure[DbReader]
       }
